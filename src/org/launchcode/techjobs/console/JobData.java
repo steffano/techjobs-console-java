@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -70,17 +71,54 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
+        // creates an ArrayList called "jobs"
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
+        // for loop iterates over every "row" HashMap in allJobs
         for (HashMap<String, String> row : allJobs) {
 
+            // creates string "aValue" filled with the value of the "column" Key
             String aValue = row.get(column);
 
+            // if value of "column" Key is the value entered into the search field, add this job to the jobs ArrayList
             if (aValue.contains(value)) {
                 jobs.add(row);
             }
         }
 
+        return jobs;
+    }
+
+    public static ArrayList<HashMap<String, String>> findbyValue(String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        // creates ArrayList called "jobs"
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        // iterates over every Hashmap in allJobs
+        for (HashMap<String, String> job : allJobs) {
+
+
+            // iterates over each Key in an individual hashmap in allJobs ArrayList
+            for (Map.Entry<String, String> jobKey : job.entrySet()) {
+
+                String k = jobKey.getKey();
+                String v = jobKey.getValue();
+
+                value = value.toLowerCase();
+                k = k.toLowerCase();
+                v = v.toLowerCase();
+
+                // if any of the keys in this job hashmap have a value equal to the value searched, add the job to the "jobs" ArrayList
+                if (v.contains(value) || k.contains(value)) {
+                    jobs.add(job);
+                }
+
+            }
+
+        }
         return jobs;
     }
 
